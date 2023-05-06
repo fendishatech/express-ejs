@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 
 const indexRouter = require("./src/routes/index");
 const authorRouter = require("./src/routes/author.routes");
+const bookRouter = require("./src/routes/book.routes");
 const migrate_tables = require("./src/helpers/migrate_models");
 
 app.set("view engine", "ejs");
@@ -19,9 +20,10 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 
 app.use("/", indexRouter);
 app.use("/authors", authorRouter);
+app.use("/books", bookRouter);
 
 // DEV
-migrate_tables();
+// migrate_tables();
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server ok!");

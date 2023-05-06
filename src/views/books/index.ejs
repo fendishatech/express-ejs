@@ -1,0 +1,52 @@
+<main>
+  <div class="container">
+    <section class="row d-flex justify-content-end">
+      <form action="/books" method="get" class="col-sm-6 col-md-6">
+        <label for="bookSearchInput">Search books by title.</label>
+        <div class="input-group">
+          <input
+            class="form-control me-2"
+            id="bookSearchInput"
+            name="query"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            value="<%= query %>"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </div>
+      </form>
+    </section>
+    <section class="mt-4">
+      <div class="card">
+        <div class="card-header">Books List</div>
+        <div class="card-body">
+          <table class="table table-responsive">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Phone No</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% books.forEach( book => { %>
+              <tr>
+                <td><%= book.id %></td>
+                <td><%= book.first_name %> <%= book.last_name %></td>
+                <td><%= book.phone_no %></td>
+                <td>
+                  <a href="">Details</a>
+                  <a href="">Update</a>
+                  <a href="">Delete</a>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
