@@ -1,7 +1,50 @@
 <main>
   <div class="container">
     <section>
-      <h1>All Authors</h1>
+      <form action="/authors" method="get" class="d-flex">
+        <label for="authorSearchInput"
+          >Search authors by first,last names and a phone numbers.</label
+        >
+        <input
+          class="form-control me-2"
+          id="authorSearchInput"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </section>
+    <section class="mt-4">
+      <div class="card">
+        <div class="card-header">Authors List</div>
+        <div class="card-body">
+          <table class="table table-responsive">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Phone No</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% authors.forEach( author => { %>
+              <tr>
+                <td><%= author.id %></td>
+                <td><%= author.first_name %> <%= author.last_name %></td>
+                <td><%= author.phone_no %></td>
+                <td>
+                  <a href="">Details</a>
+                  <a href="">Update</a>
+                  <a href="">Delete</a>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </section>
   </div>
 </main>

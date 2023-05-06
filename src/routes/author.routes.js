@@ -1,9 +1,27 @@
+const { Op } = require("sequelize");
 const router = require("express").Router();
 const Author = require("../models/author.model");
 
 // All Routes
-router.get("/", (req, res) => {
-  return res.render("authors/index");
+router.get("/", async (req, res) => {
+  const { query, page = 1, pageSize = 10 } = req.query;
+
+  try {
+    const { count, rows } = await Client.findAndCountAll({
+      where: {
+        [Op.or]: [
+          { first_name: { [Op.like]: `%${query}%` } },
+          { father_name: { [Op.like]: `%${query}%` } },
+          { phone_no: { [Op.like]: `%${query}%` } },
+        ],
+      },
+    });
+    // const authors = await Author.findAll();
+    console.log({ rows });
+    return res.render("authors/index", { authors: rows });
+  } catch (error) {
+    return res.redirect("/");
+  }
 });
 
 // Create author View
