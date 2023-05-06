@@ -1,5 +1,6 @@
 const db = require("../helpers/database");
 const { Sequelize, DataTypes } = require("sequelize");
+const { v4: uuidv4 } = require("uuid");
 
 const Author = db.define(
   "authors",
@@ -25,12 +26,17 @@ const Author = db.define(
   },
   {
     freezeTableName: true,
+    hooks: {
+      beforeCreate: (user, options) => {
+        user.id = uuidv4();
+      },
+    },
   }
 );
 
 // This hook will generate a UUID for the primary key before creating a new record
-Author.beforeCreate((user, options) => {
-  user.id = uuidv4();
-});
+// Author.beforeCreate((user, options) => {
+//   user.id = uuidv4();
+// });
 
 module.exports = Author;
