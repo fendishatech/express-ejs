@@ -1,18 +1,22 @@
 <main>
   <div class="container">
-    <section>
-      <form action="/authors" method="get" class="d-flex">
+    <section class="row d-flex justify-content-end">
+      <form action="/authors" method="get" class="col-sm-6 col-md-6">
         <label for="authorSearchInput"
           >Search authors by first,last names and a phone numbers.</label
         >
-        <input
-          class="form-control me-2"
-          id="authorSearchInput"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <div class="input-group">
+          <input
+            class="form-control me-2"
+            id="authorSearchInput"
+            name="query"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            value="<%= query %>"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </div>
       </form>
     </section>
     <section class="mt-4">

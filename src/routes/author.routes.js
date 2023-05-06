@@ -4,22 +4,23 @@ const Author = require("../models/author.model");
 
 // All Routes
 router.get("/", async (req, res) => {
-  const { query, page = 1, pageSize = 10 } = req.query;
-
+  const { page = 1, pageSize = 10 } = req.query;
+  const query = req.query.query ? req.query.query : "";
   try {
-    const { count, rows } = await Client.findAndCountAll({
+    const { count, rows } = await Author.findAndCountAll({
       where: {
         [Op.or]: [
           { first_name: { [Op.like]: `%${query}%` } },
-          { father_name: { [Op.like]: `%${query}%` } },
+          { last_name: { [Op.like]: `%${query}%` } },
           { phone_no: { [Op.like]: `%${query}%` } },
         ],
       },
     });
     // const authors = await Author.findAll();
     console.log({ rows });
-    return res.render("authors/index", { authors: rows });
+    return res.render("authors/index", { authors: rows, query: query });
   } catch (error) {
+    console.log(error.message);
     return res.redirect("/");
   }
 });
