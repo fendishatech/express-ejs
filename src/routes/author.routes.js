@@ -8,12 +8,32 @@ router.get("/", (req, res) => {
 
 // Create author View
 router.get("/new", (req, res) => {
-  return res.render("authors/new");
+  const author = {
+    first_name: "kidus",
+    last_name: "taye",
+    phone_no: "0911121314",
+  };
+  return res.render("authors/new", { author });
 });
 
 // Create route api
-router.post("/new", (req, res) => {
-  return res.send("About to create Author");
+router.post("/", async (req, res) => {
+  const author = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    phone_no: req.body.phone_no,
+  };
+  try {
+    const data = await Author.create(author);
+    console.log(data.dataValues);
+    return res.redirect(`/authors`);
+    // return res.redirect(`authors/${req.body.first_name}`);
+  } catch (error) {
+    res.render("authors/new", {
+      author,
+      errorMessage: "Error Creating Author",
+    });
+  }
 });
 
 module.exports = router;
