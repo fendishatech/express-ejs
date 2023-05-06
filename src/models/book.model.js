@@ -1,28 +1,31 @@
 const db = require("../helpers/database");
 const { Sequelize, DataTypes } = require("sequelize");
-const Book = require("./book.model");
 const { v4: uuidv4 } = require("uuid");
 
-const Author = db.define(
-  "authors",
+const Book = db.define(
+  "books",
   {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true,
     },
-    first_name: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    last_name: {
+    desc: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    phone_no: {
+    published_at: {
+      type: DataTypes.DATE,
+    },
+    pages: {
+      type: DataTypes.INTEGER,
+    },
+    cover_img: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
     },
   },
   {
@@ -35,4 +38,4 @@ const Author = db.define(
   }
 );
 
-module.exports = Author;
+module.exports = Book;
