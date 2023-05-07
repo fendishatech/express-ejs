@@ -1,6 +1,11 @@
 const { Op } = require("sequelize");
 const router = require("express").Router();
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
+const multerConfig = require("../helpers/multerConfig");
 const Book = require("../models/book.model");
+const Author = require("../models/author.model");
 
 // All Books Routes
 router.get("/", async (req, res) => {
@@ -21,22 +26,34 @@ router.get("/", async (req, res) => {
 });
 
 // Create book View
-router.get("/new", (req, res) => {
-  const book = {
-    first_name: "kidus",
-    last_name: "taye",
-    phone_no: "0911121314",
-  };
-  return res.render("books/new", { book });
+router.get("/new", async (req, res) => {
+  renderNewPage(res, new Book());
 });
 
-// Create route api
-router.post("/", async (req, res) => {
+// Create book api
+router.post("/", multer(multerConfig).single("cover"), async (req, res) => {
   const book = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    phone_no: req.body.phone_no,
+    title: req.body.title,
+    desc: req.body.desc,
+    published_at: new Date(req.body.published_at),
+    cover_img: req.file ? req.file.path : "",
+    pages: req.body.pages,
   };
+  try {
+    const newBook = await Book.create(book);
+    // res.redirect(`books/${newBook.id}`)
+    return res.redirect(`books`);
+  } catch {
+    if (book.coverImageName != null) {
+      removeBookCover(book.cover_img);
+    }
+    renderNewPage(res, book, true);
+  }
+
+  // const selectedAuthor = await Author.findOne({
+  //   where: { id: book.author_id },
+  // });
+  const authors = await Author.findAll();
   try {
     const data = await Book.create(book);
     console.log(data.dataValues);
@@ -46,8 +63,29 @@ router.post("/", async (req, res) => {
     res.render("books/new", {
       book,
       errorMessage: "Error Creating Book",
+      authors,
     });
   }
 });
+
+function removeBookCover(fileName) {
+  fs.unlink(path.join(uploadPath, fileName), (err) => {
+    if (err) console.error(err);
+  });
+}
+
+async function renderNewPage(res, book, hasError = false) {
+  try {
+    const authors = await Author.findAll();
+    const params = {
+      authors: authors,
+      book: book,
+    };
+    if (hasError) params.errorMessage = "Error Creating Book";
+    res.render("books/new", params);
+  } catch {
+    res.redirect("/books");
+  }
+}
 
 module.exports = router;

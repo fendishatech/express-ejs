@@ -1,39 +1,112 @@
-<label for="firstnameInput" class="form-label">First Name</label>
-<input
-  type="first_name"
-  name="first_name"
-  value="<%= author.first_name %>"
-  class="form-control"
-  id="firstnameInput"
-  aria-describedby="firstnameHelp"
-/>
-<div id="firstnameHelp" class="form-text">
-  We'll never share your name with anyone else.
-</div>
-<!-- LAST NAME -->
-<label for="lastnameInput" class="form-label">Last Name</label>
-<input
-  type="last_name"
-  name="last_name"
-  value="<%= author.last_name %>"
-  class="form-control"
-  id="lastnameInput"
-  aria-describedby="lastnameHelp"
-/>
-<div id="lastnameHelp" class="form-text">
-  We'll never share your name with anyone else.
+<div class="row">
+  <!-- Title -->
+  <div class="col-md-6">
+    <label for="titleInput" class="form-label">Title</label>
+    <input
+      type="text"
+      name="title"
+      value="<%= book.title %>"
+      class="form-control"
+      id="titleInput"
+      aria-describedby="titleHelp"
+    />
+    <div id="titleHelp" class="form-text">
+      We'll never share your name with anyone else.
+    </div>
+  </div>
+  <!-- Author -->
+  <div class="col-md-6">
+    <label for="authorInput" class="form-label">Author</label>
+    <select
+      id="authorInput"
+      name="author"
+      class="form-select"
+      aria-describedby="authorHelp"
+    >
+      <% authors.forEach( author => { %> <% if (book.author_id && book.author.id
+      === author.id ) {%>
+      <option selected value="<%= author.id %>">
+        <%= author.first_name %> <%= author.last_name %>
+      </option>
+      <% } %>
+      <option value="<%= author.id %>">
+        <%= author.first_name %> <%= author.last_name %>
+      </option>
+      <% }) %>
+    </select>
+    <div id="lastnameHelp" class="form-text">
+      We'll never share your name with anyone else.
+    </div>
+  </div>
 </div>
 
-<!-- PHONE NO -->
-<label for="phoneNoInput" class="form-label">Phone No</label>
-<input
-  type="phone_no"
-  name="phone_no"
-  value="<%= author.phone_no %>"
-  class="form-control"
-  id="phoneNoInput"
-  aria-describedby="phoneNoHelp"
-/>
-<div id="phoneNoHelp" class="form-text">
-  We'll never share your name with anyone else.
+<div class="row">
+  <!-- Published At -->
+  <div class="col-md-6">
+    <label for="publishedAtInput" class="form-label">Published Date</label>
+    <input
+      type="date"
+      name="published_at"
+      value="<%= book.publish_at == null ? '' : book.publish_at.toISOString().split('T')[0] %>"
+      class="form-control"
+      id="publishedAtInput"
+      aria-describedby="publishedAtHelp"
+    />
+    <div id="publishedAtHelp" class="form-text">
+      We'll never share your name with anyone else.
+    </div>
+  </div>
+  <!-- Pages -->
+  <div class="col-md-6">
+    <label for="lastnameInput" class="form-label">Pages</label>
+    <input
+      type="number"
+      name="pages"
+      min="1"
+      value="<%= book.pages %>"
+      class="form-control"
+      id="lastnameInput"
+      aria-describedby="lastnameHelp"
+    />
+    <div id="lastnameHelp" class="form-text">
+      We'll never share your name with anyone else.
+    </div>
+  </div>
 </div>
+
+<div class="row">
+  <!-- Desc -->
+  <div class="col-md-8">
+    <label for="lastnameInput" class="form-label">Description</label>
+    <textarea
+      type="desc"
+      name="desc"
+      value="<%= book.desc %>"
+      class="form-control"
+      id="lastnameInput"
+      aria-describedby="lastnameHelp"
+      cols="30"
+      rows="10"
+    ></textarea>
+    <div id="lastnameHelp" class="form-text">
+      We'll never share your name with anyone else.
+    </div>
+  </div>
+
+  <!-- Cover Image -->
+  <div class="col-md-4">
+    <label for="coverImgInput" class="form-label">Cover Image</label>
+    <input
+      type="file"
+      name="cover"
+      class="form-control"
+      id="coverImgInput"
+      aria-describedby="coverImgHelp"
+    />
+    <div id="coverImgHelp" class="form-text">
+      We'll never share your name with anyone else.
+    </div>
+  </div>
+</div>
+
+<input type="hidden" name="formName" value="books" />

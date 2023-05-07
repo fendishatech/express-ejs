@@ -24,18 +24,24 @@
           <table class="table table-responsive">
             <thead>
               <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Full Name</th>
-                <th scope="col">Phone No</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Cover</th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
               <% books.forEach( book => { %>
               <tr>
-                <td><%= book.id %></td>
-                <td><%= book.first_name %> <%= book.last_name %></td>
-                <td><%= book.phone_no %></td>
+                <td><%= book.title %></td>
+                <td><%= book.desc %></td>
+                <td>
+                  <img
+                    class="img-fluid"
+                    src="<%= book.cover_img %>"
+                    alt="Book Cover"
+                  />
+                </td>
                 <td>
                   <a href="">Details</a>
                   <a href="">Update</a>
